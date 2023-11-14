@@ -1,10 +1,4 @@
 ### Next
-create users table:
-    me (manager)
-    me (maintenance)
-    some tenants (Zach, Gabriel, Tyler, Josh)
-create request table:
-    ID int, apartment number varchar, location varchar, description varchar, datetime bigint, photo url, status SET('RECEIVED', 'WORKING ON IT', 'FINISHED').
 
 
 ### Later
