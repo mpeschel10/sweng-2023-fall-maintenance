@@ -1,9 +1,11 @@
 ### Next
-
+proxy_pass to rust
+tenant submit request page
+    form upload
+    upload endpoint
 
 ### Later
 tenant submit request page
-    form upload
     upload photos
         urgh, have to figure out proper file handling with rust
 
