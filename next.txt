@@ -1,5 +1,4 @@
 ### Next
-proxy_pass to rust
 tenant submit request page
     form upload
     upload endpoint
