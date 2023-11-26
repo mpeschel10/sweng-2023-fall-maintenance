@@ -1,9 +1,13 @@
 ### Next
-scrub out that multiple-server stuff. We do NOT need that level of infrastructure here.
-switch to nodejs
-tenant submit request page
-    form upload
-    upload endpoint
+file upload page
+file upload form
+submit target redirects to same page
+server should accept text encoded using enctype="multipart/form-data", print to console
+server should create file on ping
+sever souhld save file as appropriate
+return url
+
+add fields to upload that match database stuff
 
 ### Later
 tenant submit request page
@@ -20,6 +24,9 @@ You may assume:
 request date/time auto
 • request status initially ‘pending’
 
+submit forms with javascript
+
+
 Maintenance staff:
 FR2: A staff member must be able to browse all maintenance requests, with a variety of filters: by apartment number, by area (like kitchen), by date range, and by status.
 FR3: A staff member must be able to update the status of a selected request, from ‘pending’ to ‘completed’.
@@ -33,3 +40,4 @@ Push your code to your Github repo, and submit the link.
 
 ### Maybe
 multi photos?
+don't allow filename clobbering
