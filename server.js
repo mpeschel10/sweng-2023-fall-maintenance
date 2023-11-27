@@ -1,4 +1,6 @@
 const http = require('node:http');
+const fs = require('node:fs');
+
 const busboy = require('busboy');
 
 const hostname = '127.0.0.1';
@@ -12,6 +14,16 @@ function handle_image(req, res) {
 			
 			// Copied from https://github.com/mscdex/busboy
 			console.log('POST request');
+			console.log('Touching file');
+			const content = 'Some content!';
+
+			fs.writeFile('www/uploads/test.txt', content, err => {
+			  if (err) {
+				console.error(err);
+			  }
+			  // file written successfully
+			});
+
 			const bb = busboy({ headers: req.headers });
 			bb.on('file', (name, file, info) => {
 			  const { filename, encoding, mimeType } = info;

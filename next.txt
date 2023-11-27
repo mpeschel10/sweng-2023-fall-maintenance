@@ -1,9 +1,4 @@
 ### Next
-file upload page
-file upload form
-submit target redirects to same page
-server should accept text encoded using enctype="multipart/form-data", print to console
-server should create file on ping
 sever souhld save file as appropriate
 return url
 
