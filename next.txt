@@ -1,10 +1,6 @@
 ### Next
-Test mysql connection
-    Test query user
-    Test query request
-    Test insert request
-    Test insert user
-
+get endpoint for database rows
+post endpoint for database
 
 ### Later
 add fields to upload that match database stuff
