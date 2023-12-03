@@ -1,10 +1,25 @@
 ### Next
-add fields to upload that match database stuff
+Test mysql connection
+    Test query user
+    Test query request
+    Test insert request
+    Test insert user
+
 
 ### Later
+add fields to upload that match database stuff
+    location, description, single photo
 tenant submit request page
-    upload photos
-        urgh, have to figure out proper file handling with rust
+    location VARCHAR(1027),
+    description VARCHAR(4095),
+    photo VARCHAR(2047),
+submit page lists tenant name, apartment, datetime
+
+tenant INT, << server
+apartment VARCHAR(255), << server
+datetime BIGINT, << server
+status SET('RECEIVED', 'IN PROGRESS', 'FINISHED') DEFAULT 'RECEIVED' NOT NULL, << server
+photo preview
 
 * Tenant can submit request, setting location, description, photograph.
 You may assume:

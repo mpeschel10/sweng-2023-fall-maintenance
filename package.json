@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "busboy": "^1.6.0"
+    "busboy": "^1.6.0",
+    "mysql": "^2.18.1"
   }
 }
