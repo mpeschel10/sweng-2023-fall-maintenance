@@ -14,17 +14,10 @@ function handle_image(req, res) {
 			
 			// Copied from https://github.com/mscdex/busboy
 			console.log('POST request');
-			console.log('Touching file');
-			const content = 'Some content!';
-
-			fs.writeFile('www/uploads/test.txt', content, err => {
-			  if (err) {
-				console.error(err);
-			  }
-			  // file written successfully
-			});
 
 			const bb = busboy({ headers: req.headers });
+
+			const upload_urls = [];
 			bb.on('file', (name, file, info) => {
 			  const { filename, encoding, mimeType } = info;
 			  console.log(
@@ -33,10 +26,17 @@ function handle_image(req, res) {
 				encoding,
 				mimeType
 			  );
+
+			  const destName = filename;
+			  const destPath = `www/uploads/${destName}`;
+			  fs.writeFile(destPath, "", error => { if (!error) return; console.log("File create error ", error);});
+
 			  file.on('data', (data) => {
-				console.log(`File [${name}] got ${data.length} bytes`);
+				// console.log(`File [${name}] got ${data.length} bytes`);
+				fs.appendFile(destPath, data, error => { if (!error) return; console.log("File append error ", error);});
 			  }).on('close', () => {
 				console.log(`File [${name}] done`);
+				upload_urls.push(`http://localhost/uploads/${destName}`);
 			  });
 			});
 			bb.on('field', (name, val, info) => {
@@ -44,8 +44,8 @@ function handle_image(req, res) {
 			});
 			bb.on('close', () => {
 			  console.log('Done parsing form!');
-			  res.writeHead(303, { Connection: 'close', Location: '/' });
-			  res.end();
+			  res.writeHead(200, { "Content-Type": "application/json" });
+			  res.end(JSON.stringify(upload_urls));
 			});
 			req.pipe(bb);
 			

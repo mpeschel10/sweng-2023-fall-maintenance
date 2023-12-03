@@ -1,7 +1,4 @@
 ### Next
-sever souhld save file as appropriate
-return url
-
 add fields to upload that match database stuff
 
 ### Later
@@ -36,3 +33,5 @@ Push your code to your Github repo, and submit the link.
 ### Maybe
 multi photos?
 don't allow filename clobbering
+make filenames url safe
+    md5?
