@@ -13,7 +13,7 @@ async function request_image(req, res) {
 			res.statusCode = 200;
 			res.setHeader('Content-Type', 'application/json');
 			res.end(JSON.stringify(paths));
-			break;			
+			break;
 		default:
 			console.log('Unknown http method', req.method);
 			res.statusCode = 501;
@@ -23,30 +23,49 @@ async function request_image(req, res) {
 }
 
 async function request_request(req, res) {
-	switch (req.method) {
-	case "GET":
+	if (req.method === "GET") {
 		const connection = database.connection();
 		const data = await database.query(connection, "SELECT * FROM requests");
+		// console.log("Server: Get data:", data);
 		res.statusCode =  200;
 		res.setHeader("Content-Type", "application/json");
 		res.end(JSON.stringify(data));
-		break;
-	default:
+	} else {
 		res.statusCode = 501;
 		res.end('Unknown method');
 	}
 }
 
 async function request_user(req, res) {
-	switch (req.method) {
-	case "GET":
+	const params = new URLSearchParams(req.query_string);
+	if (req.method === "GET") {
+		let query = "SELECT * FROM users";
+		const userAttributes = [];
+		if (params.has("id")) {
+			query += " WHERE id = ?";
+			userAttributes.push(parseInt(params.get("id")));
+		}
+
 		const connection = database.connection();
-		const data = await database.query(connection, "SELECT * FROM users");
+		const data = await database.query(connection, query, userAttributes);
 		res.statusCode =  200;
 		res.setHeader("Content-Type", "application/json");
 		res.end(JSON.stringify(data));
-		break;
-	default:
+
+	} else if (req.method === "POST") {
+		const userAttributes = [params.get('username'), params.get('password'), params.get('kind')];
+		console.log("Server: Params are", params);
+		console.log("Server: Attribs are", userAttributes);
+		
+		const connection = database.connection();
+		const data = (await database.query(connection,
+			'INSERT INTO users (username, password, kind) VALUES (?, ?, ?)', userAttributes
+		)).insertId;
+
+		res.statusCode =  200;
+		res.setHeader("Content-Type", "application/json");
+		res.end(JSON.stringify(data));
+	} else {
 		res.statusCode = 501;
 		res.end('Unknown method');
 	}
@@ -55,7 +74,15 @@ async function request_user(req, res) {
 
 // Skeleton copied from https://nodejs.org/en/learn/getting-started/introduction-to-nodejs
 function handle_request(req, res) {
-	switch (req.url) {
+	console.log("Server: Handling request ", req.url);
+	// I think this is bugged?
+	// That is, sometimes requests will include the fqdn in req.url
+	//  and this will break if that happens.
+	const [path, query_string] = req.url.split('?', 2);
+	req.path = path;
+	req.query_string = query_string;
+	
+	switch (path) {
 		case '/image':
 			request_image(req, res);
 			break;
@@ -66,7 +93,7 @@ function handle_request(req, res) {
 			request_user(req, res);
 			break;
 		default:
-			res.status_code = 404;
+			res.statusCode = 404;
 			res.setHeader('Content-Type', 'text/utf-8');
 			res.end('404 not found\r\n');
 			break;
@@ -76,5 +103,5 @@ function handle_request(req, res) {
 const server = http.createServer(handle_request);
 
 server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+  console.log(`Server: Running at http://${hostname}:${port}/`);
 });

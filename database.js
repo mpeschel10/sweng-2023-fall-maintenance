@@ -7,12 +7,14 @@ exports.connection = () => mysql.createConnection({
 	database : 'sweng'
 });
 
-exports.query = (connection, string) => new Promise((resolve, reject) => {
-	connection.query(string, function (error, results, fields) {
+exports.query = (connection, string, params) => new Promise((resolve, reject) => {
+	console.log("Server: Database: Doing", string, "with params", params);
+	connection.query(string, params, function (error, results, fields) {
 		if (error) {
 			reject(error);
 		} else {
-			resolve(results, fields);
+			resolve(results);
 		}
 	});
 });
+

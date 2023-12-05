@@ -8,23 +8,23 @@ function summarise(req) { return new Promise((resolve, reject) => {
 	bb.on('file', (name, file, info) => {
 	const { filename, encoding, mimeType } = info;
 	console.log(
-		`File [${name}]: filename: %j, encoding: %j, mimeType: %j`,
+		`Server: KnockoffMulter: File [${name}]: filename: %j, encoding: %j, mimeType: %j`,
 		filename,
 		encoding,
 		mimeType
 	);
 
 	file.on('data', (data) => {
-		console.log(`File [${name}] got ${data.length} bytes`);
+		console.log(`Server: KnockoffMulter: File [${name}] got ${data.length} bytes`);
 	}).on('close', () => {
-		console.log(`File [${name}] done`);
+		console.log(`Server: KnockoffMulter: File [${name}] done`);
 	});
 	});
 	bb.on('field', (name, val, info) => {
-		console.log(`Field [${name}]: value: %j`, val);
+		console.log(`Server: KnockoffMulter: Field [${name}]: value: %j`, val);
 	});
 	bb.on('close', () => {
-		console.log('Done parsing form!');
+		console.log('Server: KnockoffMulter: Done parsing form!');
 		resolve();
 	});
 	
@@ -38,7 +38,7 @@ function saveFiles(req) { return new Promise((resolve, reject) => {
 	bb.on('file', (name, file, info) => {
 		const { filename, encoding, mimeType } = info;
 		console.log(
-			`File [${name}]: filename: %j, encoding: %j, mimeType: %j`,
+			`Server: KnockoffMulter: File [${name}]: filename: %j, encoding: %j, mimeType: %j`,
 			filename,
 			encoding,
 			mimeType
@@ -49,19 +49,22 @@ function saveFiles(req) { return new Promise((resolve, reject) => {
 		fs.writeFile(destPath, "", error => { if (!error) return; reject(error);});
 
 		file.on('data', (data) => {
-			fs.appendFile(destPath, data, error => { if (!error) return; reject(error);});
+			fs.appendFile(destPath, data, error => {
+				// console.log("Append file went through");
+				if (!error) return; reject(error);
+			});
 		}).on('close', () => {
-			console.log(`File [${name}] done`);
+			console.log(`Server: KnockoffMulter: File [${name}] done`);
 			upload_urls.push(`http://localhost/uploads/${destName}`);
 		});
 	});
 
 	bb.on('field', (name, val, info) => {
-		console.log(`Field [${name}]: value: %j`, val);
+		console.log(`Server: KnockoffMulter: Field [${name}]: value: %j`, val);
 	});
 	
 	bb.on('close', () => {
-		console.log('Done parsing form!');
+		console.log('Server: KnockoffMulter: Done parsing form!');
 		resolve(upload_urls);
 	});
 
