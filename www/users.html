@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>View tenants</title>
+	<style>
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+		}
+		.table {
+			display: grid;
+			grid-template-columns: auto auto auto auto auto auto;
+		}
+		.th {
+			color: white;
+			background-color: darkblue;
+		}
+		.td.on {
+			color: darkblue;
+			background-color: white;
+		}
+	</style>
+</head>
+<body>
+	<!--This is where the list of all users would go if we were doing that.-->
+	<h4>Tenants:</h4>
+	<div class="table">
+		<span class="th">Tenant ID</span><span class="th">Username</span><span class="th">Password</span><span class="th">Email</span><span class="th">Apartment</span><span class="th">Delete</span>
+		<span class="td on">1</span><span class="td on">mpeschel10</span><span class="td on">password</span><span class="td on">mpeschel10@gmail.com</span><span class="td on">223b</span><span class="td on"><button>X</button></span>
+	</div>
+
+
+</body>
+</html>
