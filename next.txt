@@ -1,13 +1,13 @@
 ### Next
 All UI stuff, all the time. Just throw a bunch of buttons on HTML documents.
-tenant interface: submit ticket
-
-maintenance inteface: browse, search, by apartment number, by area (like kitchen), by date range, and by status.
 maintenance interface: view ticket, update status
 
 manager interface: browse tenant (search not explicitly required)
 manager interface: view tenant, set tenant apartment, delete tenant.
 manager interface: create tenant
+
+implement tenant interface: submit ticket
+implement maintenance inteface: browse, search, by apartment number, by area (like kitchen), by date range, and by status.
 
 ### Later
 tenant INT, << server

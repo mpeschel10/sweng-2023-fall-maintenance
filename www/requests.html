@@ -3,9 +3,40 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>Request search</title>
+	<style>
+		table {
+			border-collapse: collapse;
+		}
+		th {
+			border: 2px solid black;
+		}
+		td {
+			border: 1px solid black;
+		}
+	</style>
 </head>
 <body>
-	<p>Search through tickets tickets</p>
+	<p>maintenance inteface: browse, and by status.</p>
+	<form>
+		<label for="text-apartment">Apartment: <input type="text" name="text-apartment" id="text-apartment"></label><br>
+		<label for="text-location">Location in apartment: <input type="text" name="text-location" id="text-location"></label><br>
+		<label for="datetime-local-before">Before: <input type="datetime-local" name="datetime-local-before" id="datetime-local-before"></label><br>
+		<label for="datetime-local-after">After: <input type="datetime-local" name="datetime-local-after" id="datetime-local-after"></label><br>
+		<label for="select-status">Completion status: <select name="select-status" id="select-status">
+			<option value="PENDING" selected>Pending</option>
+			<option value="COMPLETED">Completed</option>
+		</select></label><br>
+
+
+		<button type="submit" style="display:none" aria-hidden="true"></button>
+	</form>
+
+	<table>
+		<thead><tr><th>Column header</th><th>View</th></tr></thead>
+		<tbody>
+			<tr><td>Tickets go here</td><td>View</td></tr>
+		</tbody>
+	</table>
 </body>
 </html>
