@@ -1,47 +1,32 @@
 ### Next
-post endpoint for database
+All UI stuff, all the time. Just throw a bunch of buttons on HTML documents.
+tenant interface: submit ticket
+
+maintenance inteface: browse, search, by apartment number, by area (like kitchen), by date range, and by status.
+maintenance interface: view ticket, update status
+
+manager interface: browse tenant (search not explicitly required)
+manager interface: view tenant, set tenant apartment, delete tenant.
+manager interface: create tenant
 
 ### Later
-add fields to upload that match database stuff
-    location, description, single photo
-tenant submit request page
-    location VARCHAR(1027),
-    description VARCHAR(4095),
-    photo VARCHAR(2047),
-submit page lists tenant name, apartment, datetime
-
 tenant INT, << server
 apartment VARCHAR(255), << server
 datetime BIGINT, << server
-status SET('RECEIVED', 'IN PROGRESS', 'FINISHED') DEFAULT 'RECEIVED' NOT NULL, << server
+status 'PENDING' << server
 photo preview
 
-* Tenant can submit request, setting location, description, photograph.
-You may assume:
-• A tenant may not rent more than one apartment at a time.
-• A tenant can only request the maintenance of their apartment.
-• A request can only contain one problem. If there is more than one problem, the tenant must submit separate requests.
-• request photo
-• request ID auto
-request date/time auto
-• request status initially ‘pending’
-
 submit forms with javascript
-
-
-Maintenance staff:
-FR2: A staff member must be able to browse all maintenance requests, with a variety of filters: by apartment number, by area (like kitchen), by date range, and by status.
-FR3: A staff member must be able to update the status of a selected request, from ‘pending’ to ‘completed’.
-You may assume that a staff member cannot edit anything else of a request and cannot delete a request.
-
-Manager:
-FR4: A manager must be able to add a new tenant, move a tenant to another apartment, and delete a tenant. A tenant account consists of the following information: tenant ID, name, phone number, email, date of check-in, date of check-out, and an apartment number. You may assume that this system does not handle rent payments. So, there’s no information about payments
 
 Take screenshots for each functionality.
 Push your code to your Github repo, and submit the link.
 
 ### Maybe
+tenant interface: search. Not mandatory, but would be good to have and I think it will be easy to implement as a subset of maintenance search
+css (I have a 90 rn; worthwhile if I have the time)
+upload photos on same page as make new request
 multi photos?
+nice search
 don't allow filename clobbering
 make filenames url safe
     md5?
