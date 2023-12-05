@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Submit a Ticket</title>
+</head>
+<body>
+	<p>submit page lists tenant name, apartment, datetime</p>
+	<form action="http://localhost/submit.json" method="post">
+		<label for="text-location">Location: <input name="text-location" id="text-location" type="text"></label><br>
+		<label for="text-description">Description: </label><br>
+		<textarea name="text-description" rows="10" cols="80"></textarea><br>
+		<label for="text-photo">Photo: <input name="text-photo" id="text-test" type="text"></label>
+		<input type="submit" style="display:none" aria-hidden="true">
+	</form>
+</body>
+</html>
