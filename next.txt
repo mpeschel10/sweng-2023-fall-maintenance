@@ -1,5 +1,4 @@
 ### Next
-get endpoint for database rows
 post endpoint for database
 
 ### Later

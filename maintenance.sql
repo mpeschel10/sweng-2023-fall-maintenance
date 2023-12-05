@@ -40,7 +40,7 @@ VALUES
     (1, '255a', 'Kitchen ceiling', 'Ugly stain', 1699825975, '/uploads/kitchen.png', 'RECEIVED'),
     (1, '12j', 'Sitting room', 'Curtains really need to be cleaned', 1699919329, '/uploads/shades.png', 'IN PROGRESS'),
     (1, '469', 'Sidewalk', 'Needs edging', 1699919420, '/uploads/sidewalk_needs_edging.png', 'FINISHED'),
-    (1, 'West building', 'Bathroom/living room', 'Hot water tap not working', 1699919426, 'hot_tap_not_working.png', 'RECEIVED')
+    (1, 'West building', 'Bathroom/living room', 'Hot water tap not working', 1699919426, '/uploads/hot_tap_not_working.png', 'RECEIVED')
 ;
 
 

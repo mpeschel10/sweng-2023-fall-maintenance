@@ -8,7 +8,7 @@ exports.connection = () => mysql.createConnection({
 });
 
 exports.query = (connection, string) => new Promise((resolve, reject) => {
-	connection.query('SELECT * FROM users', function (error, results, fields) {
+	connection.query(string, function (error, results, fields) {
 		if (error) {
 			reject(error);
 		} else {
