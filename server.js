@@ -75,7 +75,7 @@ async function request_user(req, res) {
 	}
 }
 
-async function request_internal_summarise(req, res) {
+async function request_debug_summarise(req, res) {
 	await multer.summarise(req);
 	res.statusCode = 204;
 	res.end();
@@ -102,7 +102,7 @@ function handle_request(req, res) {
 			request_user(req, res);
 			break;
 		case '/debug/summarise':
-			request_internal_summarise(req, res);
+			request_debug_summarise(req, res);
 			break;
 		default:
 			res.statusCode = 404;
