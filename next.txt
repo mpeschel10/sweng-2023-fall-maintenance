@@ -1,9 +1,10 @@
 ### Next
 implement tenant interface: submit ticket
-    submit button
+    prepare new new ticket test
     post endpoint: new ticket
-        
+    complete new ticket test
     redirect to success page with relevant ticket
+    test creating new ticket manually
 
 implement maintenance inteface: browse, search, by apartment number, by area (like kitchen), by date range, and by status.
 implement maintenance interface: view ticket, update status
