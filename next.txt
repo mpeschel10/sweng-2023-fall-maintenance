@@ -1,6 +1,5 @@
 ### Next
 implement tenant interface: submit ticket
-    prepare new new ticket test
     post endpoint: new ticket
     complete new ticket test
     redirect to success page with relevant ticket
@@ -32,3 +31,4 @@ nice search
 don't allow filename clobbering
 make filenames url safe
     md5?
+remove ability for tenants to self-identify

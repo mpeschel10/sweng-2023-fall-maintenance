@@ -12,6 +12,16 @@ CREATE TABLE users (
     CONSTRAINT PRIMARY KEY (id)
 );
 
+INSERT INTO users
+    (username, password, kind)
+VALUES
+    ('mpeschel10', 'password', 'MANAGER'),
+    ('steveadore', 'password', 'MAINTENANCE'),
+    ('rhearst4421', 'password', 'TENANT'),
+    ('jbezos303', 'password', 'TENANT'),
+    ('dgray01', 'password', 'TENANT')
+;
+
 CREATE TABLE tenants (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
@@ -24,14 +34,12 @@ CREATE TABLE tenants (
     CONSTRAINT FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
-INSERT INTO users
-    (username, password, kind)
+INSERT INTO tenants
+    (user_id, name, phone, email, in_date, out_date, apartment)
 VALUES
-    ('mpeschel10', 'password', 'MANAGER'),
-    ('jcarson99', 'password', 'MAINTENANCE'),
-    ('tlindsay4421', 'password', 'TENANT'),
-    ('gmarx303', 'password', 'TENANT'),
-    ('znewman01', 'password', 'TENANT')
+    (3, "Randal Hearst", "1234567", "rhearst@psu.edu", 1701882625, NULL, "46a"),
+    (4, "Jeff Bezos", "89012345678", "jbezos@psu.edu", 1054440000, 1212984000, "97d"),
+    (5, "Dorian Gray", "9012345", "dgray@psu.edu", 3340033438, 555998400, "The shed behind the mortuary")
 ;
 
 CREATE TABLE requests (

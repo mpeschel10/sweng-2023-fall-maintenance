@@ -30,6 +30,10 @@ async function request_request(req, res) {
 		res.statusCode =  200;
 		res.setHeader("Content-Type", "application/json");
 		res.end(JSON.stringify(data));
+	} else if (req.method === "POST") {
+		await multer.summarise(req);
+		res.statusCode = 204;
+		res.end();
 	} else {
 		res.statusCode = 501;
 		res.end('Unknown method');
@@ -71,6 +75,11 @@ async function request_user(req, res) {
 	}
 }
 
+async function request_internal_summarise(req, res) {
+	await multer.summarise(req);
+	res.statusCode = 204;
+	res.end();
+}
 
 // Skeleton copied from https://nodejs.org/en/learn/getting-started/introduction-to-nodejs
 function handle_request(req, res) {
@@ -91,6 +100,9 @@ function handle_request(req, res) {
 			break;
 		case '/user':
 			request_user(req, res);
+			break;
+		case '/debug/summarise':
+			request_internal_summarise(req, res);
 			break;
 		default:
 			res.statusCode = 404;
