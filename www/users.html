@@ -20,6 +20,15 @@
 			color: darkblue;
 			background-color: white;
 		}
+		#form-new-tenant {
+			display: grid;
+			grid-template-columns: 15% auto;
+			width: 40%;
+		}
+		#form-new-tenant label {
+			text-align: right;
+			padding-right: 10px;
+		}
 	</style>
 </head>
 <body>
@@ -30,6 +39,21 @@
 		<span class="td on">1</span><span class="td on">mpeschel10</span><span class="td on">password</span><span class="td on">mpeschel10@gmail.com</span><span class="td on">223b</span><span class="td on"><button>X</button></span>
 	</div>
 
-
+	<hr>
+	<h4>New Tenant:</h4>
+	<form action="" id="form-new-tenant">
+		<label for="text-username">Username: </label><input type="text" name="text-username" id="text-username">
+		<label for="text-password">Password: </label><input type="text" name="text-password" id="text-password">
+		<label for="select-kind">Kind: </label><select name="select-kind" id="select-kind">
+			<option selected value="TENANT">Tenant</option>
+			<option value="MAINTENANCE">Maintenance</option>
+			<option value="MANAGER">Manager</option>
+		</select>
+		<label for="text-name">Name: </label><input type="text" name="text-name" id="text-name">
+		<label for="tel-phone">Phone: </label><input type="tel" name="tel-phone" id="tel-phone">
+		<label for="text-email">Email: </label><input type="text" name="text-email" id="text-email">
+		<label for="text-apartment">Apartment: </label><input type="text" name="text-apartment" id="text-apartment">
+		<span></span><button type="submit">Create tenant</button>
+	</form>
 </body>
 </html>
