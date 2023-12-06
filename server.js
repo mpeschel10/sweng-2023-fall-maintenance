@@ -25,15 +25,43 @@ async function request_image(req, res) {
 async function request_request(req, res) {
 	if (req.method === "GET") {
 		const connection = database.connection();
-		const data = await database.query(connection, "SELECT * FROM requests");
-		// console.log("Server: Get data:", data);
+		const request_parameters = new URLSearchParams(req.queryString);
+
+		let query = "SELECT * FROM requests";
+		let sql_parameters = [];
+		if (request_parameters.has('id')) {
+			query += " WHERE id = ?";
+			sql_parameters.push(parseInt(request_parameters.get('id')));
+		}
+		const data = await database.query(connection, query, sql_parameters);
+		
 		res.statusCode =  200;
 		res.setHeader("Content-Type", "application/json");
 		res.end(JSON.stringify(data));
 	} else if (req.method === "POST") {
-		await multer.parseAndSave(req);
-		res.statusCode = 204;
-		res.end();
+		const [fields, paths] = await multer.parseAndSave(req);
+		const params = fields.reduce((obj, [key, value]) => {
+			obj[key] = value; return obj;
+		}, {});
+		const tenant = parseInt(params.id);
+		const connection = database.connection();
+		const tenantData = await database.query(connection,
+			"SELECT apartment FROM tenants WHERE user_id = ?",
+			tenant
+		);
+		const apartment = tenantData[0]['apartment'];
+		const datetime = new Date().getTime() / 1000;
+
+		const values = [tenant, apartment, params.location, params.description, datetime, params.photo];
+		
+		const data = await database.query(connection,
+			"INSERT INTO requests (tenant, apartment, location, description, datetime, photo) VALUES (?, ?, ?, ?, ?, ?)",
+			values
+		);
+		
+		res.statusCode = 200;
+		res.setHeader('Content-Type', 'application/json');
+		res.end(JSON.stringify(data.insertId));
 	} else {
 		res.statusCode = 501;
 		res.end('Unknown method');
@@ -41,7 +69,7 @@ async function request_request(req, res) {
 }
 
 async function request_user(req, res) {
-	const params = new URLSearchParams(req.query_string);
+	const params = new URLSearchParams(req.queryString);
 	if (req.method === "GET") {
 		let query = "SELECT * FROM users";
 		const userAttributes = [];
@@ -58,8 +86,8 @@ async function request_user(req, res) {
 
 	} else if (req.method === "POST") {
 		const userAttributes = [params.get('username'), params.get('password'), params.get('kind')];
-		console.log("Server: Params are", params);
-		console.log("Server: Attribs are", userAttributes);
+		// console.log("Server: Params are", params);
+		// console.log("Server: Attribs are", userAttributes);
 		
 		const connection = database.connection();
 		const data = (await database.query(connection,
@@ -87,9 +115,9 @@ function handle_request(req, res) {
 	// I think this is bugged?
 	// That is, sometimes requests will include the fqdn in req.url
 	//  and this will break if that happens.
-	const [path, query_string] = req.url.split('?', 2);
+	const [path, queryString] = req.url.split('?', 2);
 	req.path = path;
-	req.query_string = query_string;
+	req.queryString = queryString;
 	
 	switch (path) {
 		case '/image':

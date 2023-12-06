@@ -50,16 +50,25 @@ function saveFile(name, stream, info) { return new Promise((resolve, reject) => 
 })}
 
 function parseAndSave(req) { return new Promise((resolve, reject) => {
-	resolve();
-	// const bb = busboy({headers: req.headers});
-	// const paths = [];
-	// const fields = [];
+	const bb = busboy({headers: req.headers});
+	const fields = [];
 
-	// bb.on('file', )
-	// bb.on('field', )
-	// bb.on('close', () => {
-	// 	resolve()
-	// })
+	const pathPromises = [];
+	bb.on('file', (filename, encoding, mimeType) => {
+		pathPromises.push(saveFile(filename, encoding, mimeType));
+	});
+
+	bb.on('field', (name, val, info) => {
+		fields.push([name, val]);
+	});
+
+	bb.on('close', () => {
+		Promise.all(pathPromises).then(paths => {
+			resolve([fields, paths]);
+		});
+	})
+
+	req.pipe(bb);
 })}
 
 function saveFiles(req) { return new Promise((resolve, reject) => {

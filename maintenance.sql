@@ -82,5 +82,5 @@ But the book as a whole was wise, intelligent, well read, or the product of some
 ;
 
 
-SELECT * FROM users;
-SELECT * FROM requests;
+-- SELECT * FROM users;
+-- SELECT * FROM requests;
