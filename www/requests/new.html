@@ -10,11 +10,12 @@
 	<label>Your apartment: </label>
 	<label>Current time: </label>
 	
-	<form action="http://localhost/requests" method="post" enctype="multipart/form-data">
-		<label for="text-location">Location: <input name="text-location" id="text-location" type="text"></label><br>
+	<form action="http://localhost/request" method="POST" enctype="multipart/form-data">
+		<input type="number" value="4" style="display:none" aria-hidden="true" name="id"> <!-- TODO: replace this with the secure cookie thing when we set up logins-->
+		<label for="text-location">Location: <input name="location" id="text-location" type="text"></label><br>
 		<label for="text-description">Description: </label><br>
-		<textarea name="text-description" rows="10" cols="80"></textarea><br>
-		<label for="text-photo">Photo: <input name="text-photo" id="text-test" type="text"></label>
+		<textarea id="text-description" name="description" rows="10" cols="80"></textarea><br>
+		<label for="text-photo">Photo: <input name="photo" id="text-test" type="text"></label>
 		<input type="submit">
 	</form>
 </body>

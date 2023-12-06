@@ -49,6 +49,14 @@ async function request_request(req, res) {
 			"SELECT apartment FROM tenants WHERE user_id = ?",
 			tenant
 		);
+
+		if (tenantData.length == 0) {
+			res.statusCode = 404;
+			res.setHeader("Content-Type", "application/json");
+			res.end(JSON.stringify(`Bad parameter id=${tenant}: No tenant with that user_id exists.`));
+			return;
+		}
+
 		const apartment = tenantData[0]['apartment'];
 		const datetime = new Date().getTime() / 1000;
 
@@ -59,9 +67,9 @@ async function request_request(req, res) {
 			values
 		);
 		
-		res.statusCode = 200;
-		res.setHeader('Content-Type', 'application/json');
-		res.end(JSON.stringify(data.insertId));
+		res.statusCode = 303; // 303 SEE OTHER: Tells client to use GET for next request
+		res.setHeader('Location', `http://localhost/request.html?id=${data.insertId}`);
+		res.end();
 	} else {
 		res.statusCode = 501;
 		res.end('Unknown method');

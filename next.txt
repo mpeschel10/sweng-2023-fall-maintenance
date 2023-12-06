@@ -1,14 +1,24 @@
 ### Next
-implement tenant interface: submit ticket
-    post endpoint: new ticket
-    complete new ticket test
-    redirect to success page with relevant ticket
-    test creating new ticket manually
+implement maintenance interface:
+    view ticket
+        if query parameter present, then use javascript to fetch
+            display
+        else redirect to requests
+    update status
+        button
+        save request id in button
+        DELETE
 
 implement maintenance inteface: browse, search, by apartment number, by area (like kitchen), by date range, and by status.
-implement maintenance interface: view ticket, update status
 implement manager interface: browse tenant (search not explicitly required) view tenant, set tenant apartment, delete tenant.
 implement manager interface: create tenant
+
+access control:
+    session table (cookie to user id)
+    secure cookie
+    login page
+        post form; Set-Cookie: secure-cookie=key; 303 to index.html
+    redirect to login from everything if cookie not present
 
 ### Later
 tenant INT, << server
@@ -36,3 +46,4 @@ knockoff-multer has a bug where a promise can be both resolved and rejected if e
     use promise.all or whatever it's called to make sure everything succeeds.
 Is it a bug that POST /image returns the paths to the client before files are all written?
     Call it a feature. Faster response.
+Make POST /request into a one-step process which copies current apartment of tenant all in SQL.
