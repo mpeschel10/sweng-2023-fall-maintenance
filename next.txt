@@ -1,9 +1,5 @@
 ### Next
 implement maintenance interface:
-    view ticket
-        if query parameter present, then use javascript to fetch
-            display
-        else redirect to requests
     update status
         button
         save request id in button
