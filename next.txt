@@ -32,3 +32,7 @@ don't allow filename clobbering
 make filenames url safe
     md5?
 remove ability for tenants to self-identify
+knockoff-multer has a bug where a promise can be both resolved and rejected if e.g. there's multiple files or the file-write fails after the file data closes.
+    use promise.all or whatever it's called to make sure everything succeeds.
+Is it a bug that POST /image returns the paths to the client before files are all written?
+    Call it a feature. Faster response.

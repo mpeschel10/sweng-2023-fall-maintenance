@@ -31,7 +31,7 @@ async function request_request(req, res) {
 		res.setHeader("Content-Type", "application/json");
 		res.end(JSON.stringify(data));
 	} else if (req.method === "POST") {
-		await multer.summarise(req);
+		await multer.parseAndSave(req);
 		res.statusCode = 204;
 		res.end();
 	} else {
