@@ -173,6 +173,13 @@ async function request_user(req, res) {
 	}
 }
 
+async function request_tenant(req, res) {
+	const connection = database.connection();
+	const data = await database.query(connection, "SELECT * FROM users JOIN tenants ON users.id = tenants.user_id");
+	res.setHeader("Content-Type", "application/json");
+	res.end(JSON.stringify(data));
+}
+
 async function request_debug_summarise(req, res) {
 	await multer.summarise(req);
 	res.statusCode = 204;
@@ -203,6 +210,9 @@ function handle_request(req, res) {
 			break;
 		case '/user':
 			request_user(req, res);
+			break;
+		case '/tenant':
+			request_tenant(req, res);
 			break;
 		case '/debug/summarise':
 			request_debug_summarise(req, res);

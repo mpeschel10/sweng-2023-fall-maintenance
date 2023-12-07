@@ -1,5 +1,4 @@
 ### Next
-implement maintenance inteface: browse, search, by apartment number, by area (like kitchen), by date range, and by status.
 implement manager interface: browse tenant (search not explicitly required) view tenant, set tenant apartment, delete tenant.
 implement manager interface: create tenant
 
@@ -10,9 +9,9 @@ access control:
         post form; Set-Cookie: secure-cookie=key; 303 to index.html
     redirect to login from everything if cookie not present
 
-demonstrate tenant interface: submit ticket
-
-maintenance interface: browse, search by apt, location, date range, status
+demonstrate
+    tenant interface: submit ticket
+    maintenance interface: browse, search by apt, location, date range, status
 
 ### Later
 tenant INT, << server
