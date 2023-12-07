@@ -42,18 +42,13 @@
 
 	<hr>
 	<h4>New Tenant:</h4>
-	<form action="/user" id="form-new-tenant" enctype="multipart/form-data" method="POST">
-		<label for="text-username">Username: </label><input type="text" name="text-username" id="text-username">
-		<label for="text-password">Password: </label><input type="text" name="text-password" id="text-password">
-		<!-- <label for="select-kind">Kind: </label><select name="select-kind" id="select-kind">
-			<option selected value="TENANT">Tenant</option>
-			<option value="MAINTENANCE">Maintenance</option>
-			<option value="MANAGER">Manager</option>
-		</select> -->
-		<label for="text-name">Name: </label><input type="text" name="text-name" id="text-name">
-		<label for="tel-phone">Phone: </label><input type="tel" name="tel-phone" id="tel-phone">
-		<label for="text-email">Email: </label><input type="text" name="text-email" id="text-email">
-		<label for="text-apartment">Apartment: </label><input type="text" name="text-apartment" id="text-apartment">
+	<form action="/tenant" id="form-new-tenant" enctype="multipart/form-data" method="POST">
+		<label for="text-username">Username: </label><input type="text" name="username" id="text-username">
+		<label for="text-password">Password: </label><input type="text" name="password" id="text-password">
+		<label for="text-name">Name: </label><input type="text" name="name" id="text-name">
+		<label for="tel-phone">Phone: </label><input type="tel" name="phone" id="tel-phone">
+		<label for="text-email">Email: </label><input type="text" name="email" id="text-email">
+		<label for="text-apartment">Apartment: </label><input type="text" name="apartment" id="text-apartment">
 		<span></span><button type="submit">Create tenant</button>
 	</form>
 </body>

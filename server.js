@@ -199,6 +199,33 @@ async function request_tenant(req, res) {
 		const data = await database.query(connection, "DELETE FROM tenants WHERE id = ?", [id]);
 		res.setHeader("Content-Type", "application/json");
 		res.end(JSON.stringify(data));
+	} else if (req.method === "POST") {
+		const [fields, paths] = await multer.parseAndSave(req);
+		console.log("Fileds:", fields, paths);
+		const bodyParameters = fields.reduce((obj, [key, value]) => { obj[key] = value; return obj}, {});
+		const userParameters = [
+			bodyParameters.username,
+			bodyParameters.password,
+			'TENANT',
+		];
+
+		const connection = database.connection();
+		const userResult = await database.query(connection, "INSERT INTO users (username, password, kind) VALUES (?, ?, ?)", userParameters);
+		const userId = userResult.insertId;
+
+		const tenantParameters = [
+			userId, 
+			bodyParameters.name,
+			bodyParameters.phone,
+			bodyParameters.email,
+			Math.round(new Date().getTime() / 1000),
+			bodyParameters.apartment,
+		]
+		await database.query(connection, "INSERT INTO tenants (user_id, name, phone, email, in_date, apartment) VALUES (?, ?, ?, ?, ?, ?)", tenantParameters);
+	
+		res.statusCode = 303;
+		res.setHeader("Location", "/users.html");
+		res.end();
 	} else {
 		res.statusCode = 405;
 		res.end();

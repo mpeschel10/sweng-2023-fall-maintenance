@@ -1,6 +1,4 @@
 ### Next
-implement manager interface: browse tenant (search not explicitly required) view tenant, set tenant apartment, delete tenant.
-implement manager interface: create tenant
 
 access control:
     session table (cookie to user id)
@@ -9,9 +7,13 @@ access control:
         post form; Set-Cookie: secure-cookie=key; 303 to index.html
     redirect to login from everything if cookie not present
 
+display in-date, out-date on users.html
+delete should set out-date
+
 demonstrate
     tenant interface: submit ticket
     maintenance interface: browse, search by apt, location, date range, status
+    implement manager interface: edit appt, delete tenant, create tenant
 
 ### Later
 tenant INT, << server
