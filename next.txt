@@ -1,10 +1,4 @@
 ### Next
-implement maintenance interface:
-    update status
-        button
-        save request id in button
-        DELETE
-
 implement maintenance inteface: browse, search, by apartment number, by area (like kitchen), by date range, and by status.
 implement manager interface: browse tenant (search not explicitly required) view tenant, set tenant apartment, delete tenant.
 implement manager interface: create tenant
@@ -15,6 +9,10 @@ access control:
     login page
         post form; Set-Cookie: secure-cookie=key; 303 to index.html
     redirect to login from everything if cookie not present
+
+demonstrate tenant interface: submit ticket
+
+maintenance interface: browse, search by apt, location, date range, status
 
 ### Later
 tenant INT, << server
@@ -43,3 +41,4 @@ knockoff-multer has a bug where a promise can be both resolved and rejected if e
 Is it a bug that POST /image returns the paths to the client before files are all written?
     Call it a feature. Faster response.
 Make POST /request into a one-step process which copies current apartment of tenant all in SQL.
+Allow maintenance to set status from search page

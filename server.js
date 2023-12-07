@@ -6,6 +6,16 @@ const database = require('./database.js');
 const hostname = '127.0.0.1';
 const port = 3090;
 
+// From https://stackoverflow.com/a/49428486/6286797
+function streamToString (stream) {
+	const chunks = [];
+	return new Promise((resolve, reject) => {
+		stream.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
+		stream.on('error', (err) => reject(err));
+		stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
+	})
+}
+  
 async function request_image(req, res) {
 	switch (req.method) {
 		case 'POST':
@@ -70,6 +80,19 @@ async function request_request(req, res) {
 		res.statusCode = 303; // 303 SEE OTHER: Tells client to use GET for next request
 		res.setHeader('Location', `http://localhost/request.html?id=${data.insertId}`);
 		res.end();
+	} else if (req.method === 'PATCH') {
+		const query = new URLSearchParams(req.queryString);
+		const id = parseInt(query.get('id'));
+		
+		const patchString = await streamToString(req);
+		const patch = JSON.parse(patchString);
+		const status = patch.status;
+		
+		const connection = database.connection();
+		const result = await database.query(connection, 'UPDATE requests SET status = ? WHERE id = ?', [status, id]);
+		res.statusCode = 200;
+		res.setHeader('Content-Type', 'application/json');
+		res.end(JSON.stringify(result));
 	} else {
 		res.statusCode = 501;
 		res.end('Unknown method');
@@ -117,6 +140,11 @@ async function request_debug_summarise(req, res) {
 	res.end();
 }
 
+async function request_debug_body(req, res) {
+	console.log(await streamToString(req));
+	res.end();
+}
+
 // Skeleton copied from https://nodejs.org/en/learn/getting-started/introduction-to-nodejs
 function handle_request(req, res) {
 	console.log("Server: Handling request ", req.url);
@@ -139,6 +167,9 @@ function handle_request(req, res) {
 			break;
 		case '/debug/summarise':
 			request_debug_summarise(req, res);
+			break;
+		case '/debug/body':
+			request_debug_body(req, res);
 			break;
 		default:
 			res.statusCode = 404;
