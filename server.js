@@ -2,6 +2,7 @@ const http = require('node:http');
 
 const multer = require('./knockoff-multer.js');
 const database = require('./database.js');
+const { parse } = require('node:path');
 
 const hostname = '127.0.0.1';
 const port = 3090;
@@ -15,7 +16,25 @@ function streamToString (stream) {
 		stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
 	})
 }
-  
+
+// From https://stackoverflow.com/a/3409200/6286797
+function parseCookies (request) {
+    const list = {};
+    const cookieHeader = request.headers?.cookie;
+    if (!cookieHeader) return list;
+
+    cookieHeader.split(`;`).forEach(function(cookie) {
+        let [ name, ...rest] = cookie.split(`=`, 2);
+        name = name?.trim();
+        if (!name) return;
+        const value = rest.join(`=`).trim();
+        if (!value) return;
+        list[name] = decodeURIComponent(value);
+    });
+
+    return list;
+}
+
 async function request_image(req, res) {
 	switch (req.method) {
 		case 'POST':
@@ -232,6 +251,62 @@ async function request_tenant(req, res) {
 	}
 }
 
+async function request_auth(req, res) {
+	const uri = req.headers['x-original-uri'];
+	const [path, queryString] = uri.split('?', 2);
+	console.log("Authorizing ", path, queryString);
+	if (!path.endsWith('html')) {
+		res.end();
+		return;
+	}
+
+	const cookies = parseCookies(req);
+	console.log(cookies);
+	const userKind = cookies['user-kind'];
+
+	if (uri === "/index.html" || uri === '/login.html') {
+		res.statusCode = 200;
+	} else if (uri === "/request.html") {
+		if (userKind !== 'MAINTENANCE' && userKind !== 'TENANT')
+			res.statusCode = 403;
+	} else if (uri === "/requests.html") {
+		if (userKind !== 'MAINTENANCE')
+			res.statusCode = 403;
+	} else if (uri === "/requests/new.html") {
+		if (userKind !== 'TENANT')
+			res.statusCode = 403;
+	} else if (uri === "/upload.html") {
+		if (userKind !== 'TENANT')
+			res.statusCode = 403;
+	} else if (uri === "/users.html") {
+		if (userKind !== 'MANAGER')
+			res.statusCode = 403;
+	} else {
+		res.statusCode = 403;
+	}
+	res.end();
+}
+
+async function request_login(req, res) {
+	const query = new URLSearchParams(req.queryString);
+	const username = query.get('username');
+	const password = query.get('password');
+
+	const connection = database.connection();
+	const [user] = await database.query(connection, 'SELECT kind FROM users WHERE username = ? AND password = ?', [username, password]);
+	
+	const cookie = `user-kind=${user.kind}`;
+	console.log("Setting cookie:", cookie);
+	if (user) {
+		res.statusCode = 302;
+		res.setHeader("Set-Cookie", cookie);
+		res.setHeader("Location", `/index.html`);
+	} else {
+		res.statusCode = 403;
+	}
+	res.end();
+}
+
 async function request_debug_summarise(req, res) {
 	await multer.summarise(req);
 	res.statusCode = 204;
@@ -254,6 +329,9 @@ function handle_request(req, res) {
 	req.queryString = queryString;
 	
 	switch (path) {
+		case '/auth':
+			request_auth(req, res);
+			break;
 		case '/image':
 			request_image(req, res);
 			break;
@@ -271,6 +349,9 @@ function handle_request(req, res) {
 			break;
 		case '/debug/body':
 			request_debug_body(req, res);
+			break;
+		case '/login':
+			request_login(req, res);
 			break;
 		default:
 			res.statusCode = 404;

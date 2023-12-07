@@ -1,5 +1,4 @@
 ### Next
-
 access control:
     session table (cookie to user id)
     secure cookie
