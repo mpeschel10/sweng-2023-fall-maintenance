@@ -52,7 +52,7 @@ CREATE TABLE requests (
     photo VARCHAR(2047),
     status SET('PENDING', 'COMPLETED') DEFAULT 'PENDING' NOT NULL,
     CONSTRAINT PRIMARY KEY (id),
-    CONSTRAINT FOREIGN KEY (tenant) REFERENCES users (id)
+    CONSTRAINT FOREIGN KEY (tenant) REFERENCES users (id) ON DELETE SET NULL
 );
 
 -- Some content from https://old.reddit.com/user/Befriendjamin

@@ -29,6 +29,7 @@
 			apartment.addEventListener("change", onTextApartmentChange);
 
 			delete_.addEventListener("click", onButtonDeleteClick);
+			delete_.tenantId = tenant.id;
 
 			[username, password, name, phone, email, apartment, delete_].map(element => {
 				table.appendChild(element);
@@ -51,10 +52,15 @@
 	}
 
 	async function onButtonDeleteClick(event) {
-		const textApartment = event.target;
-		const tenantId = textApartment.tenantId;
+		const buttonDelete = event.target;
+		const tenantId = buttonDelete.tenantId;
 
 		console.log("Deleting tenant " + tenantId);
+		await fetch(`/tenant?id=${tenantId}`, {
+			method: 'DELETE',
+		});
+
+		search();
 	}
 
 	async function init() {

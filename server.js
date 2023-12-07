@@ -191,6 +191,14 @@ async function request_tenant(req, res) {
 		const data = await database.query(connection, "UPDATE tenants SET apartment = ? WHERE id = ?", [apartment, id]);
 		res.setHeader("Content-Type", "application/json");
 		res.end(JSON.stringify(data));
+	} else if (req.method === "DELETE") {
+		const query = new URLSearchParams(req.queryString);
+		const id = parseInt(query.get('id'));
+		
+		const connection = database.connection();
+		const data = await database.query(connection, "DELETE FROM tenants WHERE id = ?", [id]);
+		res.setHeader("Content-Type", "application/json");
+		res.end(JSON.stringify(data));
 	} else {
 		res.statusCode = 405;
 		res.end();
