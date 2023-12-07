@@ -38,10 +38,49 @@ async function request_request(req, res) {
 		const request_parameters = new URLSearchParams(req.queryString);
 
 		let query = "SELECT * FROM requests";
+		let sql_parameter_clauses = [];
 		let sql_parameters = [];
-		if (request_parameters.has('id')) {
-			query += " WHERE id = ?";
-			sql_parameters.push(parseInt(request_parameters.get('id')));
+		
+		const id = request_parameters.get('id');
+		if (id !== null && id !== "") {
+			sql_parameter_clauses.push("id = ?");
+			sql_parameters.push(parseInt(id));
+		}
+
+		// table.appendChild(date);
+		
+		const apartment = request_parameters.get("apartment");
+		if (apartment !== null && apartment !== "") {
+			sql_parameter_clauses.push("apartment LIKE ?");
+			sql_parameters.push('%' + apartment + '%');
+		}
+
+		const location = request_parameters.get("location");
+		if (location !== null && location !== "") {
+			sql_parameter_clauses.push("location LIKE ?");
+			sql_parameters.push('%' + location + '%');
+		}
+
+		const before = request_parameters.get("before");
+		if (before !== null && before !== "") {
+			sql_parameter_clauses.push("datetime < ?");
+			sql_parameters.push(before);
+		}
+
+		const after = request_parameters.get("after");
+		if (after !== null && after !== "") {
+			sql_parameter_clauses.push("datetime > ?");
+			sql_parameters.push(after);
+		}
+
+		const status = request_parameters.get("status");
+		if (status !== null && status !== "" && status != "ANY") {
+			sql_parameter_clauses.push("status = ?");
+			sql_parameters.push(status);
+		}
+		
+		if (sql_parameters.length > 0) {
+			query += " WHERE " + sql_parameter_clauses.join(' AND ');
 		}
 		const data = await database.query(connection, query, sql_parameters);
 		

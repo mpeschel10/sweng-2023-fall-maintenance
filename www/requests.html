@@ -19,28 +19,18 @@
 			border: 1px solid black;
 		}
 
-		/* #table-head {
-			display: subgrid;
-			grid-column: 1/6;
-			background-color: magenta;
-		}
-		#table-body {
-			display: subgrid;
-			background-color: red;
-			grid-column: 1/6;
-
-		} */
 	</style>
 	<script src="/requests.js"></script>
 </head>
 <body>
 	<form id="form-search">
-		<label for="text-apartment">Apartment: <input type="text" name="text-apartment" id="text-apartment"></label><br>
-		<label for="text-location">Location in apartment: <input type="text" name="text-location" id="text-location"></label><br>
-		<label for="datetime-local-before">Before: <input type="datetime-local" name="datetime-local-before" id="datetime-local-before"></label><br>
-		<label for="datetime-local-after">After: <input type="datetime-local" name="datetime-local-after" id="datetime-local-after"></label><br>
-		<label for="select-status">Completion status: <select name="select-status" id="select-status">
-			<option value="PENDING" selected>Pending</option>
+		<label for="text-apartment">Apartment: <input type="text" name="apartment" id="text-apartment"></label><br>
+		<label for="text-location">Location in apartment: <input type="text" name="location" id="text-location"></label><br>
+		<label for="datetime-local-before">Before: <input type="datetime-local" name="before" id="datetime-local-before"></label><br>
+		<label for="datetime-local-after">After: <input type="datetime-local" name="after" id="datetime-local-after"></label><br>
+		<label for="select-status">Completion status: <select name="status" id="select-status">
+			<option value="ANY" selected>Any</option>
+			<option value="PENDING">Pending</option>
 			<option value="COMPLETED">Completed</option>
 		</select></label><br>
 		<input id="button-submit" type="submit">

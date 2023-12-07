@@ -3,6 +3,15 @@
 		const formSearch = document.getElementById("form-search");
 		const params = new URLSearchParams(new FormData(formSearch));
 		
+		const beforeString = params.get("before");
+		if (beforeString !== "") {
+			params.set("before", new Date(beforeString).getTime() / 1000);
+		}
+		const afterString = params.get("after");
+		if (afterString !== "") {
+			params.set("after", new Date(afterString).getTime() / 1000);
+		}
+		
 		const requests = await fetch("/request?" + params).then(response => response.json());
 		
 		const oldHeader = document.querySelectorAll(".th");
