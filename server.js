@@ -38,10 +38,10 @@ function parseCookies (request) {
 async function request_image(req, res) {
 	switch (req.method) {
 		case 'POST':
-			const paths = await multer.saveFiles(req);
-			res.statusCode = 200;
-			res.setHeader('Content-Type', 'application/json');
-			res.end(JSON.stringify(paths));
+			const [path] = await multer.saveFiles(req);
+			res.statusCode = 303;
+			res.setHeader('Location', path);
+			res.end();
 			break;
 		default:
 			console.log('Unknown http method', req.method);
@@ -264,21 +264,22 @@ async function request_auth(req, res) {
 	console.log(cookies);
 	const userKind = cookies['user-kind'];
 
-	if (uri === "/index.html" || uri === '/login.html') {
+	if (path === "/index.html" || path === '/login.html') {
 		res.statusCode = 200;
-	} else if (uri === "/request.html") {
+	} else if (path === "/request.html") {
+		console.log("userKind: ", userKind);
 		if (userKind !== 'MAINTENANCE' && userKind !== 'TENANT')
 			res.statusCode = 403;
-	} else if (uri === "/requests.html") {
+	} else if (path === "/requests.html") {
 		if (userKind !== 'MAINTENANCE')
 			res.statusCode = 403;
-	} else if (uri === "/requests/new.html") {
+	} else if (path === "/requests/new.html") {
 		if (userKind !== 'TENANT')
 			res.statusCode = 403;
-	} else if (uri === "/upload.html") {
+	} else if (path === "/upload.html") {
 		if (userKind !== 'TENANT')
 			res.statusCode = 403;
-	} else if (uri === "/users.html") {
+	} else if (path === "/users.html") {
 		if (userKind !== 'MANAGER')
 			res.statusCode = 403;
 	} else {
