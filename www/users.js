@@ -15,7 +15,7 @@
 			const name = n(".span-name");
 			const phone = n(".span-phone");
 			const email = n(".span-email");
-			const apartment = n(".span-apartment");
+			const apartment = n(".text-apartment");
 			const delete_ = n(".button-delete");
 			
 			username.textContent = tenant.username;
@@ -23,12 +23,38 @@
 			name.textContent = tenant.name;
 			phone.textContent = tenant.phone;
 			email.textContent = tenant.email;
-			apartment.textContent = tenant.apartment;
+			
+			apartment.value = tenant.apartment;
+			apartment.tenantId = tenant.id;
+			apartment.addEventListener("change", onTextApartmentChange);
+
+			delete_.addEventListener("click", onButtonDeleteClick);
 
 			[username, password, name, phone, email, apartment, delete_].map(element => {
 				table.appendChild(element);
 			});
 		}
+	}
+
+	async function onTextApartmentChange(event) {
+		const textApartment = event.target;
+		const tenantId = textApartment.tenantId;
+		const apartment = textApartment.value;
+
+		console.log("Updating tenant " + tenantId + " to have apartment " + apartment);
+		const patchString = JSON.stringify({apartment});
+		await fetch(`/tenant?id=${tenantId}`, {
+			method: 'PATCH',
+			headers: {"Content-Type": "application/merge-patch+json"},
+			body: patchString,
+		});
+	}
+
+	async function onButtonDeleteClick(event) {
+		const textApartment = event.target;
+		const tenantId = textApartment.tenantId;
+
+		console.log("Deleting tenant " + tenantId);
 	}
 
 	async function init() {

@@ -174,10 +174,27 @@ async function request_user(req, res) {
 }
 
 async function request_tenant(req, res) {
-	const connection = database.connection();
-	const data = await database.query(connection, "SELECT * FROM users JOIN tenants ON users.id = tenants.user_id");
-	res.setHeader("Content-Type", "application/json");
-	res.end(JSON.stringify(data));
+	if (req.method === "GET") {
+		const connection = database.connection();
+		const data = await database.query(connection, "SELECT * FROM users JOIN tenants ON users.id = tenants.user_id");
+		res.setHeader("Content-Type", "application/json");
+		res.end(JSON.stringify(data));
+	} else if (req.method === "PATCH") {
+		const query = new URLSearchParams(req.queryString);
+		const id = parseInt(query.get('id'));
+		
+		const patchString = await streamToString(req);
+		const patch = JSON.parse(patchString);
+		const apartment = patch.apartment;
+
+		const connection = database.connection();
+		const data = await database.query(connection, "UPDATE tenants SET apartment = ? WHERE id = ?", [apartment, id]);
+		res.setHeader("Content-Type", "application/json");
+		res.end(JSON.stringify(data));
+	} else {
+		res.statusCode = 405;
+		res.end();
+	}
 }
 
 async function request_debug_summarise(req, res) {
@@ -193,7 +210,7 @@ async function request_debug_body(req, res) {
 
 // Skeleton copied from https://nodejs.org/en/learn/getting-started/introduction-to-nodejs
 function handle_request(req, res) {
-	console.log("Server: Handling request ", req.url);
+	console.log("Server: Handling request ", req.method, req.url);
 	// I think this is bugged?
 	// That is, sometimes requests will include the fqdn in req.url
 	//  and this will break if that happens.
