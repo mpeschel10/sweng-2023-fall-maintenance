@@ -5,20 +5,36 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Request search</title>
 	<style>
-		table {
-			border-collapse: collapse;
+		.table {
+			/* border-collapse: collapse; */
+			display: grid;
+			grid-template-columns: repeat(5, auto);
+			width: 80%;
 		}
-		th {
-			border: 2px solid black;
+		.th {
+			border: 3px solid black;
+			padding: 4px;
 		}
-		td {
+		.td {
 			border: 1px solid black;
 		}
+
+		/* #table-head {
+			display: subgrid;
+			grid-column: 1/6;
+			background-color: magenta;
+		}
+		#table-body {
+			display: subgrid;
+			background-color: red;
+			grid-column: 1/6;
+
+		} */
 	</style>
+	<script src="/requests.js"></script>
 </head>
 <body>
-	<p>maintenance inteface: browse, and by status.</p>
-	<form>
+	<form id="form-search">
 		<label for="text-apartment">Apartment: <input type="text" name="text-apartment" id="text-apartment"></label><br>
 		<label for="text-location">Location in apartment: <input type="text" name="text-location" id="text-location"></label><br>
 		<label for="datetime-local-before">Before: <input type="datetime-local" name="datetime-local-before" id="datetime-local-before"></label><br>
@@ -27,16 +43,16 @@
 			<option value="PENDING" selected>Pending</option>
 			<option value="COMPLETED">Completed</option>
 		</select></label><br>
-
-
-		<button type="submit" style="display:none" aria-hidden="true"></button>
+		<input id="button-submit" type="submit">
 	</form>
+	<br>
 
-	<table>
-		<thead><tr><th>Column header</th><th>View</th></tr></thead>
-		<tbody>
-			<tr><td>Tickets go here</td><td><a href="/request.html">View</a></td></tr>
-		</tbody>
-	</table>
+	<div id="table-requests" class="table">
+		<span class="th">Apartment</span><span class="th">Location</span><span class="th">Date</span><span class="th">Status</span><span class="th">View</span>
+		<span class="td span-apartment">Apartment</span><span class="td span-location">Location</span><span class="td span-date">Date</span><span class="td">Status</span><span class="td"><a href="" class="a-view">View</a></span>
+	</div>
 </body>
+<template id="template-row">
+	<span class="td span-apartment">Apartment</span><span class="td span-location">Location</span><span class="td span-date">Date</span><span class="td span-status">Status</span><span class="td"><a href="" class="a-view td">View</a></span>
+</template>
 </html>
